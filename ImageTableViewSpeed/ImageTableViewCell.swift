@@ -72,12 +72,8 @@ final class ImageTableViewCell: UITableViewCell {
 extension UIImage {
     
     func resizedAspectBy(scale: CGFloat) -> UIImage? {
-        let size = self.size
-        
         let newSize: CGSize = CGSize(width: size.width * scale, height: size.height * scale)
-        
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        let rect = CGRect(origin: .zero, size: newSize)
         
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)

@@ -10,7 +10,7 @@ import UIKit
 
 final class ImageTableViewCell: UITableViewCell {
     
-    private let urlSession: URLSession = URLSession(configuration: .ephemeral)
+    static let urlSession: URLSession = URLSession(configuration: .ephemeral)
     private var imageTask: URLSessionDataTask? = nil
     private let lblSize: UILabel = UILabel()
     private let imgImage: UIImageView = UIImageView()
@@ -51,7 +51,7 @@ final class ImageTableViewCell: UITableViewCell {
     }
     
     func fill(with url: URL) {
-        imageTask = urlSession.dataTask(with: url) { [weak self] (data: Data?, response: URLResponse?, error: Error?) in
+        imageTask = ImageTableViewCell.urlSession.dataTask(with: url) { [weak self] (data: Data?, response: URLResponse?, error: Error?) in
             if let imageData = data {
                 if let image: UIImage = UIImage(data: imageData),
                     let resizedImage: UIImage = image.resizedAspectBy(scale: UIScreen.main.bounds.width / image.size.width),
@@ -62,7 +62,6 @@ final class ImageTableViewCell: UITableViewCell {
                         self?.lblSize.text = "\(startDataSize / 1000) Kb -> \(endDataSize / 1000) Kb"
                     }
                 }
-                
             } }
         imageTask?.resume()
     }
